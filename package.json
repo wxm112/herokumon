@@ -1,0 +1,15 @@
+{
+  "name": "herokumon",
+  "version": "1.0.0",
+  "description": "A service for monitoring Heroku by acting as a log drain",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "May Wang",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^1.3.5"
+  }
+}
