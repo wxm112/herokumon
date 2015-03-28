@@ -19,12 +19,16 @@ fakeMessage = {date: '2015-03-26T09:48:54.276127+00:00',
                 service: 21,
                 bytes: 3159};
 
+var f = function(value) {return Math.floor(value);};
+var r = function(max) { return Math.random()*max; };
+var s = function(value) {return Math.sqrt(value);};
+
 sendFakeMessage = function(){
-  fakeMessage.dyno = "web." + Math.floor((Math.random() * 10) + 1);
-  fakeMessage.status = Math.random() > 0.1 ? 200 : 404;
-  fakeMessage.connect = Math.floor(Math.sqrt((Math.random() * 100)) + 1);
-  fakeMessage.service = Math.floor((Math.random() * 100) + Math.sqrt((Math.random() * 10000)) + 1);
-  fakeMessage.bytes = Math.floor(Math.sqrt((Math.random() * 10000)) + 193);
+  fakeMessage.dyno = "web." + (f(r(10)) + 1);
+  fakeMessage.status = r(1) > 0.1 ? 200 : 404;
+  fakeMessage.connect = f(s(r(10)));
+  fakeMessage.service =  f( s(r(50)) + r(1000) );
+  fakeMessage.bytes = f(s((r() * 10000)) + 193 + r(10000));
 
   io.emit('request', fakeMessage);
 
