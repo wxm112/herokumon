@@ -32,7 +32,7 @@ sendFakeMessage = function(){
 
   io.emit('request', fakeMessage);
 
-  setTimeout(sendFakeMessage, Math.random()*5000);
+  setTimeout(sendFakeMessage, Math.random()*1000);
 };
 
 sendFakeMessage();
