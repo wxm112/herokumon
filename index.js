@@ -24,7 +24,7 @@ var r = function(max) { return Math.random()*max; };
 var s = function(value) {return Math.sqrt(value);};
 
 sendFakeMessage = function(){
-  fakeMessage.dyno = "web." + (f(r(10)) + 1);
+  fakeMessage.dyno = "web." + (f(r(4)) + 1);
   fakeMessage.status = r(1) > 0.1 ? 200 : 404;
   fakeMessage.connect = f(s(r(10)));
   fakeMessage.service =  f( s(r(50)) + r(1000) );
