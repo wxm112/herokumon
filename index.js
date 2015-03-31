@@ -20,7 +20,7 @@ app.use(function(req, res, next) {
 
 app.post('/logs', function (req, res) {
   res.send('Got a POST request');
-  console.log(">>" + rawBody);
+  console.log(">>" + req.rawBody);
   lines = req.rawBody.match(/[^\r\n]+/g);
   lines.forEach(function(logLine) {
     if(logLine.match(/host heroku router/)) {
