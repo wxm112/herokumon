@@ -5,10 +5,23 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 http.listen(port);
 
-function handler (req, res) {
-  res.writeHead(404);
-  res.end("Not Found");
-}
+app.use(function(req, res, next) {
+  req.rawBody = '';
+  req.setEncoding('utf8');
+
+  req.on('data', function(chunk) {
+    req.rawBody += chunk;
+  });
+
+  req.on('end', function() {
+    next();
+  });
+});
+
+app.post('/logs', function (req, res) {
+  res.send('Got a POST request');
+  console.log("This is the request body: " + req.rawBody);
+});
 
 fakeMessage = {date: '2015-03-26T09:48:54.276127+00:00',
                 dyno: 'web.1',
