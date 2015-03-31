@@ -20,34 +20,28 @@ app.use(function(req, res, next) {
 
 app.post('/logs', function (req, res) {
   res.send('Got a POST request');
+
+//245 <158>1 2015-03-31T01:36:12.860323+00:00 host heroku router - at=info method=GET path="/login" host=www.data-snippet.io request_id=3ebc158c-4bdd-4325-a279-1c85ef6d7459 fwd="140.168.78.24" dyno=web.1 connect=0ms service=16ms status=200 bytes=2508
+
+  lines = req.rawBody.match(/[^\r\n]+/g);
+  lines.forEach(function(logLine) {
+    if(logLine.match(/host heroku router/)) {
+
+      message = {};
+
+      keyValuePart = logLine.split(' - ')[1];
+      things = keyValuePart.split(' ');
+      things.forEach(function(thing){
+        kv = thing.split('=');
+        message[kv[0]] = kv[1];
+      });
+      io.emit('request', message);
+    }
+
+  });
+
   console.log("This is the request body: " + req.rawBody);
 });
-
-fakeMessage = {date: '2015-03-26T09:48:54.276127+00:00',
-                dyno: 'web.1',
-                status: 200,
-                client: '188.226.184.152',
-                connect: 1,
-                service: 21,
-                bytes: 3159};
-
-var f = function(value) {return Math.floor(value);};
-var r = function(max) { return Math.random()*max; };
-var s = function(value) {return Math.sqrt(value);};
-
-sendFakeMessage = function(){
-  fakeMessage.dyno = "web." + (f(r(4)) + 1);
-  fakeMessage.status = r(1) > 0.1 ? 200 : 404;
-  fakeMessage.connect = f(s(r(10)));
-  fakeMessage.service =  f( s(r(50)) + r(1000) );
-  fakeMessage.bytes = f(s((r() * 10000)) + 193 + r(10000));
-
-  io.emit('request', fakeMessage);
-
-  setTimeout(sendFakeMessage, Math.random()*200);
-};
-
-sendFakeMessage();
 
 io.on('connection', function(socket){
   console.log("Got connection!");
