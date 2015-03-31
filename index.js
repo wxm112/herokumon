@@ -1,4 +1,5 @@
-var http = require('http').createServer(handler);
+var app = require('express')();
+var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 var port = process.env.PORT || 3000;
@@ -8,8 +9,6 @@ function handler (req, res) {
   res.writeHead(404);
   res.end("Not Found");
 }
-
-
 
 fakeMessage = {date: '2015-03-26T09:48:54.276127+00:00',
                 dyno: 'web.1',
