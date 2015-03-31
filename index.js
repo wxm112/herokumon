@@ -26,21 +26,20 @@ app.post('/logs', function (req, res) {
   lines = req.rawBody.match(/[^\r\n]+/g);
   lines.forEach(function(logLine) {
     if(logLine.match(/host heroku router/)) {
-
       message = {};
-
       keyValuePart = logLine.split(' - ')[1];
       things = keyValuePart.split(' ');
       things.forEach(function(thing){
         kv = thing.split('=');
         message[kv[0]] = kv[1];
+        message.service = parseInt(message.service);
+        message.connect = parseInt(message.connect);
+        message.status  = parseInt(message.status);
+        message.bytes  = parseInt(message.bytes);
       });
       io.emit('request', message);
     }
-
   });
-
-  console.log("This is the request body: " + req.rawBody);
 });
 
 io.on('connection', function(socket){
