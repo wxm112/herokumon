@@ -4,12 +4,12 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 http.listen(port);
 
-console.log("Listening on port " + port);
-
 function handler (req, res) {
   res.writeHead(404);
   res.end("Not Found");
 }
+
+
 
 fakeMessage = {date: '2015-03-26T09:48:54.276127+00:00',
                 dyno: 'web.1',
@@ -37,9 +37,6 @@ sendFakeMessage = function(){
 
 sendFakeMessage();
 
-io.on('connection', function (socket) {
-  console.log("Got connection");
-  socket.on('hello', function (data){
-    console.log("The client say hello " + data);
-  });
+io.on('connection', function(socket){
+  console.log("Got connection!");
 });
